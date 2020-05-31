@@ -22,24 +22,21 @@ object TraverseApp {
 
   def filter[A](list: List[A])(func: A => Boolean): List[A] =
     list.foldRight(List.empty[A]) { (item, accum) =>
-      if(func(item)) item :: accum else accum
+      if (func(item)) item :: accum else accum
     }
 
   filter(List(1, 2, 3))(_ % 2 == 1)
   // res11: List[Int] = List(1, 3)
 
-
   import scala.math.Numeric
 
-  def sumWithNumeric[A](list: List[A])
-                       (implicit numeric: Numeric[A]): A =
+  def sumWithNumeric[A](list: List[A])(implicit numeric: Numeric[A]): A =
     list.foldRight(numeric.zero)(numeric.plus)
 
   sumWithNumeric(List(1, 2, 3))
   // res12: Int = 6
 
-  def sumWithMonoid[A](list: List[A])
-                      (implicit monoid: Monoid[A]): A =
+  def sumWithMonoid[A](list: List[A])(implicit monoid: Monoid[A]): A =
     list.foldRight(monoid.empty)(monoid.combine)
 
   import cats.instances.int._ // for Monoid
